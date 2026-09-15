@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "code-edge-gate",
+  "main": "worker/src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "durable_objects": {
+    "bindings": [
+      { "name": "QUIZ_GATE", "class_name": "QuizGate" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["QuizGate"] }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://bloibloi.github.io",
+    "CODE_EDGE_URL": "https://bloibloi.github.io/Code-edge/"
+  }
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0713">
+  <meta name="description" content="A short history article and quiz that unlocks an embedded app on a correct answer.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self' https://code-edge-gate.liamlitchfeild.workers.dev; frame-src https://bloibloi.github.io; base-uri 'none'; form-action 'none'">
+  <title>Breaking the Code</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <article class="history-card">
+      <p class="eyebrow">HISTORY</p>
+      <h1>Breaking the Code at Bletchley Park</h1>
+      <p>
+        During the Second World War, the German military encrypted its radio traffic with the Enigma
+        machine, an electromechanical device whose rotating wheels produced a cipher that changed with
+        every keystroke. Polish mathematicians made the first breaks into Enigma in the 1930s and shared
+        their techniques with Britain and France shortly before the war began.
+      </p>
+      <p>
+        At a country estate north of London called Bletchley Park, a team that included the mathematician
+        Alan Turing built on that early work. Turing helped design an electromechanical machine called
+        the <strong>Bombe</strong>, which sped through the possible Enigma rotor settings far faster than
+        any human codebreaker could by hand. Intelligence recovered this way was classified under the
+        codename <em>Ultra</em> and is credited by historians with shortening the war.
+      </p>
+    </article>
+
+    <section class="quiz-card" aria-labelledby="quizHeading">
+      <p class="eyebrow">QUIZ</p>
+      <h2 id="quizHeading">Answer correctly to open Code Edge</h2>
+      <form id="quizForm">
+        <p class="quiz-question">What was the name of the machine Alan Turing helped design to speed up Enigma codebreaking?</p>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="answer" value="Ultra"><span>Ultra</span></label>
+          <label class="quiz-option"><input type="radio" name="answer" value="The Bombe"><span>The Bombe</span></label>
+          <label class="quiz-option"><input type="radio" name="answer" value="Colossus"><span>Colossus</span></label>
+          <label class="quiz-option"><input type="radio" name="answer" value="The Lorenz"><span>The Lorenz</span></label>
+        </div>
+        <button class="primary-button" id="quizSubmit" type="submit">Check answer</button>
+        <p class="quiz-status" id="quizStatus" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="reveal-card" id="codeEdgeReveal" hidden aria-labelledby="revealHeading">
+      <p class="eyebrow">CODE EDGE</p>
+      <h2 id="revealHeading">Code Edge</h2>
+      <p class="reveal-note">
+        If the app below stays blank, your browser may be blocking the embedded view.
+        Use the link instead -- it opens the same authenticated destination in a new tab.
+      </p>
+      <a class="secondary-button" id="openCodeEdgeLink" href="#" target="_blank" rel="noopener">Open Code Edge in a new tab</a>
+      <div class="embed-frame-wrap">
+        <iframe
+          id="codeEdgeFrame"
+          title="Code Edge"
+          src="about:blank"
+          allow="autoplay; fullscreen; clipboard-read; clipboard-write; display-capture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+  </main>
+  <script src="./gate.js"></script>
+</body>
+</html>

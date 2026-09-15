@@ -145,10 +145,11 @@
       <p class="eyebrow">CODE EDGE</p>
       <h2 id="revealHeading">Code Edge</h2>
       <p class="reveal-note">
-        If the app below stays blank, your browser may be blocking the embedded view.
-        Use the link instead -- it opens the same destination in a new tab.
+        The button opens Code Edge in a clean tab whose address bar stays on
+        about:blank, so it isn't written to your browser history. If your
+        browser blocks the pop-up, it falls back to a normal new tab.
       </p>
-      <a class="secondary-button" id="openCodeEdgeLink" href="#" target="_blank" rel="noopener">Open Code Edge in a new tab</a>
+      <a class="secondary-button" id="openCodeEdgeLink" href="https://bloibloi.github.io/Code-edge/" target="_blank" rel="noopener">Open Code Edge in a clean tab</a>
       <div class="embed-frame-wrap">
         <iframe
           id="codeEdgeFrame"
@@ -192,6 +193,26 @@
         revealSection.hidden = false;
         openLink.href = CODE_EDGE_URL;
         frame.src = CODE_EDGE_URL;
+      });
+
+      // Open the app in an about:blank tab: the tab's address bar stays on
+      // about:blank and the URL is not recorded in history, while the iframe
+      // inside it loads the real Code Edge origin so pairing, Plex, and
+      // streaming keep working (they depend on that exact origin).
+      openLink.addEventListener("click", function (event) {
+        const win = window.open("about:blank", "_blank");
+        if (!win) return; // Pop-up blocked: let the normal link navigation happen.
+        event.preventDefault();
+        const markup =
+          '<!doctype html><html><head><meta charset="utf-8">' +
+          '<title>Code Edge</title>' +
+          '<style>html,body,iframe{margin:0;width:100%;height:100%;border:0}body{background:#08050c}</style>' +
+          '</head><body><iframe src="' + CODE_EDGE_URL + '" ' +
+          'allow="autoplay; fullscreen; clipboard-read; clipboard-write; display-capture" ' +
+          'allowfullscreen></iframe></body></html>';
+        win.document.open();
+        win.document.write(markup);
+        win.document.close();
       });
     })();
   </script>

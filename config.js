@@ -1,4 +1,2 @@
-// Set this to the deployed gate Worker URL, without a trailing slash.
-// This endpoint only answers the two routes in worker/src/index.ts
-// (/gate/verify and /gate/health) -- it is not a general-purpose proxy.
-window.CODE_EDGE_GATE_API = "https://code-edge-gate.liamlitchfeild.workers.dev";
+// The Code Edge app this page unlocks once the quiz is answered correctly.
+window.CODE_EDGE_URL = "https://bloibloi.github.io/Code-edge/";

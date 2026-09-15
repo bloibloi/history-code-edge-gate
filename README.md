@@ -4,7 +4,9 @@ The Google Site history gate for the [Code Edge](https://github.com/bloibloi/Cod
 project. This repository does not modify Code Edge at all -- it only builds
 the page that sits in front of it.
 
-Everything here is a static site. There is no backend to deploy.
+The whole thing is one self-contained `index.html` -- CSS and JavaScript
+inlined, no other files, no backend. That single file can either be served
+as a site or pasted straight into a Google Sites embed block.
 
 ## Flow
 
@@ -19,7 +21,7 @@ Google Site (Embed by URL gadget)
 1. A Google Site embeds this page's URL (Insert → Embed → By URL).
 2. The page shows a short history article and one multiple-choice question.
 3. On submit, the browser compares the chosen answer to `CORRECT_ANSWER`
-   in `gate.js`. One fixed question, one fixed answer, every time.
+   in the inline script. One fixed question, one fixed answer, every time.
 4. Only on a match does the page reveal the embedded view: an `<iframe>`
    that starts at `about:blank` and is only then pointed at Code Edge, so
    nothing about Code Edge loads before the quiz is passed.
@@ -83,15 +85,26 @@ embedded view ever stays blank, that link is the fallback path.
 
 ## Changing the question or the answer
 
-The article, the question, and the four options live in `index.html`. To
-change which option is correct, set `CORRECT_ANSWER` at the top of
-`gate.js` to match that option's `value` exactly.
+Everything lives in `index.html`. The article, question, and four options
+are in the markup; to change which option is correct, set `CORRECT_ANSWER`
+in the inline script to match that option's `value` exactly.
 
-## Deploy
+## Getting it onto the Google Site
 
-Push to `main` -- `.github/workflows/pages.yml` publishes the site root to
-GitHub Pages. Then, in Google Sites, add an **Embed → By URL** block
-pointing at the published Pages URL.
+**Paste it directly (no hosting needed).** In Google Sites: Insert → Embed
+→ **Embed code**, and paste the entire contents of `index.html`. Because
+the file is self-contained, this needs no server, no Pages, and no account
+setup anywhere.
+
+**Or serve it from GitHub Pages.** Push to `main` and
+`.github/workflows/pages.yml` publishes the repository root, after which
+Google Sites can point at the published URL with Insert → Embed → By URL.
+
+Note that Pages has to be switched on once by a repository admin
+(Settings → Pages → Source → GitHub Actions) before that workflow can
+succeed. Until then it fails at its first step, because creating a Pages
+site needs admin rights that `GITHUB_TOKEN` does not carry. The paste
+route above avoids this entirely.
 
 ## Local preview
 

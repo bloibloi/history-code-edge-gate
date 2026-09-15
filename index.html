@@ -6,10 +6,104 @@
   <meta name="theme-color" content="#0b0713">
   <meta name="description" content="A short history article and quiz that unlocks an embedded app on a correct answer.">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; frame-src https://bloibloi.github.io; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; frame-src https://bloibloi.github.io; base-uri 'none'; form-action 'none'">
   <title>Breaking the Code</title>
-  <link rel="stylesheet" href="./styles.css">
-  <script src="./config.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0713;
+      --panel: #16101f;
+      --border: #2c2140;
+      --text: #f2eefb;
+      --muted: #ab9fc4;
+      --accent: #8a5cf6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .shell {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .eyebrow {
+      margin: 0 0 4px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+    h1 { margin: 0 0 16px; font-size: 26px; }
+    h2 { margin: 0 0 12px; font-size: 20px; }
+    .history-card, .quiz-card, .reveal-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+    }
+    .history-card p { margin: 0 0 12px; }
+    .history-card p:last-child { margin-bottom: 0; }
+    .quiz-question { margin: 0 0 14px; color: var(--muted); }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .quiz-option:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(138, 92, 246, 0.12);
+    }
+    .primary-button, .secondary-button {
+      display: inline-block;
+      font: inherit;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 18px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+    .primary-button { background: var(--accent); color: #fff; border: none; }
+    .secondary-button {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+      margin-bottom: 16px;
+    }
+    .quiz-status {
+      margin: 12px 0 0;
+      min-height: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .reveal-note { margin: 0 0 16px; color: var(--muted); font-size: 14px; }
+    .embed-frame-wrap {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      height: 70vh;
+      min-height: 420px;
+    }
+    .embed-frame-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+  </style>
 </head>
 <body>
   <main class="shell">
@@ -66,6 +160,40 @@
       </div>
     </section>
   </main>
-  <script src="./gate.js"></script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const CORRECT_ANSWER = "The Bombe";
+      const CODE_EDGE_URL = "https://bloibloi.github.io/Code-edge/";
+
+      const form = document.getElementById("quizForm");
+      const statusEl = document.getElementById("quizStatus");
+      const revealSection = document.getElementById("codeEdgeReveal");
+      const frame = document.getElementById("codeEdgeFrame");
+      const openLink = document.getElementById("openCodeEdgeLink");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const selected = form.querySelector('input[name="answer"]:checked');
+        if (!selected) {
+          statusEl.textContent = "Choose an answer first.";
+          return;
+        }
+
+        if (selected.value !== CORRECT_ANSWER) {
+          statusEl.textContent = "That answer isn't correct. Try again.";
+          return;
+        }
+
+        statusEl.textContent = "Correct! Opening Code Edge below.";
+        form.hidden = true;
+        revealSection.hidden = false;
+        openLink.href = CODE_EDGE_URL;
+        frame.src = CODE_EDGE_URL;
+      });
+    })();
+  </script>
 </body>
 </html>
